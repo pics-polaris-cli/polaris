@@ -24,6 +24,7 @@ The Polaris CLI supports the following commands:
 | `polaris-cli init <name>`            | Creates a new Nx workspace for creating Polaris projects.|
 | `polaris-cli generate <type> <name>` | Generates a new Polaris project/component [alias: `g`]|
 | `polaris-cli serialize-slo-mapping <slo-mapping-path>` | Serializes an SLO Mapping instance from a `.ts` file to Kubernetes YAML. [alias: `serialize`]|
+| `polaris-cli apply-slo-mapping <slo-mapping-path>` | Applies an SLO Mapping instance from a `.ts` file to the Kubernetes cluster. [alias: `apply`]|
 | `polaris-cli build <name>`           | Builds a Polaris project. |
 | `polaris-cli docker-build <name>`    | Builds the Docker container image for a Polaris controller project. |
 | `polaris-cli deploy <name>`          | Deploys a Polaris project or an SLO Mapping to an orchestrator. |
@@ -43,16 +44,21 @@ The Polaris CLI supports the following commands:
 The `polaris-cli generate <type> <name>` command allows generating new polaris components.
 If supports the following types:
 
-* [`slo-mapping-type`](#slo-mapping-type)
-* [`slo-mapping`](#slo-mapping)
-* [`slo-controller`](#slo-controller)
-* [`elasticity-strategy`](#elasticity-strategy)
-* [`elasticity-strategy-controller`](#elasticity-strategy-controller)
-* [`composed-metric-type`](#composed-metric-type)
-* [`composed-metric-controller`](#composed-metrics-controller)
-* [`metrics-dashboard`](#metrics-dashboard-generation)
-* [`metrics-alert`](#metrics-alert-generation)
-* [`predicted-metric-controller`](#predicted-metric-controller)
+- [Polaris-CLI](#polaris-cli)
+  - [Commands Overview](#commands-overview)
+  - [Create a New Workspace](#create-a-new-workspace)
+  - [Generate a Component](#generate-a-component)
+    - [SLO Mapping Type](#slo-mapping-type)
+    - [SLO Mapping](#slo-mapping)
+    - [SLO Controller](#slo-controller)
+    - [Elasticity Strategy](#elasticity-strategy)
+    - [Elasticity Strategy Controller](#elasticity-strategy-controller)
+    - [Composed Metric Type](#composed-metric-type)
+    - [Composed Metrics Controller](#composed-metrics-controller)
+    - [Metrics Dashboard Generation](#metrics-dashboard-generation)
+      - [Usage](#usage)
+    - [Metrics Alert Generation](#metrics-alert-generation)
+    - [Predicted Metric Controller](#predicted-metric-controller)
 
 
 ### SLO Mapping Type
