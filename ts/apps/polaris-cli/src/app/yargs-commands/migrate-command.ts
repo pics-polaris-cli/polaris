@@ -3,7 +3,13 @@ import { CommandModule } from 'yargs';
 import { NX_CLI, PolarisCli } from '../polaris-cli';
 import { RunNpmBinaryTask, Task } from '../tasks';
 import { POLARIS_PKGS } from '../util/packages';
-import { getLatestReleaseVersion, readFromPackageJson as getNrwlPackages, getNxVersion } from '../util/packages-utils';
+import {
+    getLatestReleaseVersion,
+    readFromPackageJson as getNrwlPackages,
+    getNxVersion,
+    getProjectsFromPolarisJson,
+    updateDockerCommand,
+} from '../util/packages-utils';
 import { createYargsCommand } from './command';
 
 const VERSION = 'polarisVersion';
@@ -41,6 +47,13 @@ export function createMigrateCommand(cli: PolarisCli): CommandModule<any, any> {
                     }),
                 );
             });
+
+            if (args.polarisVersion > '0.4.1' || args.polarisVersion === 'latest') {
+                getProjectsFromPolarisJson().forEach(project => {
+                    updateDockerCommand(project);
+                });
+            }
+
             return cli.taskExecutor.runTasksSequentially(...tasks);
         },
     );
