@@ -30,7 +30,7 @@ export async function getLatestReleaseVersion(): Promise<string> {
     return latestReleaseTag;
 }
 
-export function readFromPackageJson(): string[] {
+export function getNrwlPackages(): string[] {
     const packageJson: { devDependencies: [] } = JSON.parse(fs.readFileSync(PACKAGE_JSON_FILE, 'utf-8'));
     return Object.keys(packageJson.devDependencies).filter(pkg => pkg.startsWith(NRWL_ORG));
 }

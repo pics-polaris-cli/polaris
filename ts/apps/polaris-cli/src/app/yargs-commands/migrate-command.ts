@@ -5,21 +5,21 @@ import { RunNpmBinaryTask, Task } from '../tasks';
 import { POLARIS_PKGS } from '../util/packages';
 import {
     getLatestReleaseVersion,
-    readFromPackageJson as getNrwlPackages,
+    getNrwlPackages,
     getNxVersion,
     getProjectsFromPolarisJson,
     updateDockerCommand,
 } from '../util/packages-utils';
 import { createYargsCommand } from './command';
 
-const VERSION = 'polarisVersion';
+const VERSION = 'polaris-version';
 
 /**
  * Factory for creating a command that migrates the Polaris project to the specified version
  */
 export function createMigrateCommand(cli: PolarisCli): CommandModule<any, any> {
     return createYargsCommand(
-        ['migrate <polarisVersion>'],
+        ['migrate <polaris-version>'],
         'Migrate to a specific Polaris version.',
         args =>
             args.positional(VERSION, {
