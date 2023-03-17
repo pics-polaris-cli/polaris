@@ -45,7 +45,12 @@ const executeApplySloMapping: Generator<ApplySloMappingGeneratorSchema> = async 
 
     const serializedSlo = result.stdout.toString();
 
-    await apply(createKubeConfig(), serializedSlo);
+    try {
+        const kubeResponse = await apply(createKubeConfig(), serializedSlo);
+        console.log(kubeResponse.map((r) => `${r.kind} ${r.metadata?.name} applied`).join('\n'));
+    } catch (e) {
+        console.error('An error occured while applying SLO:', e.body ?? e.message);
+    }
 
     // Needed when we turn this into an executor.
     // return Promise.resolve({
