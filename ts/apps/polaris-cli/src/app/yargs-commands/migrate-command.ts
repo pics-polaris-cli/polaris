@@ -1,7 +1,7 @@
 import { CommandModule } from 'yargs';
 
 import { NX_CLI, PolarisCli } from '../polaris-cli';
-import { RunNpmBinaryTask, Task } from '../tasks';
+import { RunNpmBinaryTask, RunProcessTask, Task } from '../tasks';
 import { POLARIS_PKGS } from '../util/packages';
 import {
     getLatestReleaseVersion,
@@ -30,21 +30,24 @@ export function createMigrateCommand(cli: PolarisCli): CommandModule<any, any> {
             const nxVersion = await getNxVersion(polarisVersion);
             const NRWL_PACKAGES = getNrwlPackages();
 
-            const tasks: Task[] = [];
-            POLARIS_PKGS.forEach(pkg => {
-                tasks.push(
+            const tasks: Task[] = [
+                ...POLARIS_PKGS.map(pkg =>
                     new RunNpmBinaryTask({
                         command: `${NX_CLI} migrate ${pkg}@${polarisVersion}`,
                     }),
-                );
-            });
-            NRWL_PACKAGES.forEach(pkg => {
-                tasks.push(
+                ),
+                ...NRWL_PACKAGES.map(pkg =>
                     new RunNpmBinaryTask({
                         command: `${NX_CLI} migrate ${pkg}@${nxVersion}`,
                     }),
-                );
-            });
+                ),
+                new RunNpmBinaryTask({
+                    command: `${NX_CLI} migrate --run-migrations`
+                }),
+                new RunProcessTask({
+                    command: 'rm migrations.json'
+                })
+            ];
 
             return cli.taskExecutor.runTasksSequentially(...tasks);
         },
