@@ -7,8 +7,6 @@ import {
     getLatestReleaseVersion,
     getNrwlPackages,
     getNxVersion,
-    getProjectsFromPolarisJson,
-    updateDockerCommand,
 } from '../util/packages-utils';
 import { createYargsCommand } from './command';
 
@@ -47,12 +45,6 @@ export function createMigrateCommand(cli: PolarisCli): CommandModule<any, any> {
                     }),
                 );
             });
-
-            if (args.polarisVersion > '0.4.1' || args.polarisVersion === 'latest') {
-                getProjectsFromPolarisJson().forEach(project => {
-                    updateDockerCommand(project);
-                });
-            }
 
             return cli.taskExecutor.runTasksSequentially(...tasks);
         },
