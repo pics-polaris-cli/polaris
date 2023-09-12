@@ -5,7 +5,7 @@ import { RunNpmBinaryTask, RunProcessTask, Task } from '../tasks';
 import { POLARIS_PKGS } from '../util/packages';
 import {
     getLatestReleaseVersion,
-    getNrwlPackages,
+    getNxPackages,
     getNxVersion,
 } from '../util/packages-utils';
 import { createYargsCommand } from './command';
@@ -28,7 +28,7 @@ export function createMigrateCommand(cli: PolarisCli): CommandModule<any, any> {
             const latestVersion = await getLatestReleaseVersion();
             const polarisVersion = args.polarisVersion === 'latest' ? latestVersion : `v${args.polarisVersion}`;
             const nxVersion = await getNxVersion(polarisVersion);
-            const NRWL_PACKAGES = getNrwlPackages();
+            const NRWL_PACKAGES = getNxPackages();
 
             const tasks: Task[] = [
                 ...POLARIS_PKGS.map(pkg =>
