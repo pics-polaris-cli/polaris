@@ -19,9 +19,6 @@ const executeApplySloMapping: Generator<ApplySloMappingGeneratorSchema> = async 
 
     const normalizedOptions = normalizeOptions(options);
 
-    // Needed when we turn this into an executor.
-    // const host = new FsTree(context.root, false);
-
     // We need a different FsTree, because we don't want to write the created files to the console,
     // because the output should only the YAML.
     host = new FsTree(host.root, false);
@@ -39,7 +36,6 @@ const executeApplySloMapping: Generator<ApplySloMappingGeneratorSchema> = async 
         [ 'ts-node', '--project', scriptTsConfig, scriptTs ],
         {
             cwd: host.root,
-            // stdio: 'inherit',
         },
     );
 
@@ -51,11 +47,6 @@ const executeApplySloMapping: Generator<ApplySloMappingGeneratorSchema> = async 
     } catch (e) {
         console.error('An error occured while applying SLO:', e.body ?? e.message);
     }
-
-    // Needed when we turn this into an executor.
-    // return Promise.resolve({
-    //     success: result.status === 0,
-    // });
 }
 
 export default executeApplySloMapping;
