@@ -5,6 +5,9 @@ import {
     KubeConfig,
     KubernetesObject,
     KubernetesObjectApi,
+    RbacAuthorizationV1Api,
+    V1ClusterRole,
+    V1ClusterRoleBinding,
     V1CustomResourceDefinition,
 } from '@kubernetes/client-node';
 import { Tree } from '@nx/devkit';
@@ -291,4 +294,24 @@ export async function apply(kubeConfig: KubeConfig, specString: string): Promise
         }
     }
     return created;
+}
+
+export function getClusterRoleFromManifest(manifest: unknown[]): V1ClusterRole | undefined {
+    return manifest.find((obj): obj is V1ClusterRole => typeof obj === 'object' && 'kind' in obj && obj.kind === 'ClusterRole');
+}
+
+export function getClusterRoleBindingFromManifest(manifest: unknown[]): V1ClusterRoleBinding | undefined {
+    return manifest.find((obj): obj is V1ClusterRoleBinding => typeof obj === 'object' && 'kind' in obj && obj.kind === 'ClusterRoleBinding');
+}
+
+export async function getDeployedClusterRole(name: string, kubeConfig: KubeConfig): Promise<V1ClusterRole> {
+    const rbacAuthorizationApi = kubeConfig.makeApiClient(RbacAuthorizationV1Api);
+    const response = await rbacAuthorizationApi.readClusterRole(name);
+    return response.body;
+}
+
+export async function getDeployedClusterRoleBinding(name: string, kubeConfig: KubeConfig): Promise<V1ClusterRoleBinding> {
+    const rbacAuthorizationApi = kubeConfig.makeApiClient(RbacAuthorizationV1Api);
+    const response = await rbacAuthorizationApi.readClusterRoleBinding(name);
+    return response.body;
 }
