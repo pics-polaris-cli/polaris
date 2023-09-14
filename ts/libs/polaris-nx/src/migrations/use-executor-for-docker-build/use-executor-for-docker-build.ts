@@ -1,6 +1,6 @@
 import { Tree, getProjects, updateProjectConfiguration } from '@nx/devkit';
 
-export default function update(tree: Tree) {
+export default function updateDockerBuildCommand(tree: Tree) {
     const projects = getProjects(tree);
 
     for (const [name, project] of projects) {
