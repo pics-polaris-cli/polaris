@@ -75,7 +75,7 @@ export default generateElasticityStrategyController;
 
 function addElasticityStrategyControllerFiles(host: Tree, options: ElasticityStrategyControllerGeneratorNormalizedSchema): void {
     const eStratNames = getElasticityStrategyNames(options.eStratType);
-    const { group, kind } = extractSloType(host, options)
+    const { group, kind } = extractEStratType(host, options)
 
     const templateOptions = {
         ...eStratNames,
@@ -92,7 +92,7 @@ function addElasticityStrategyControllerFiles(host: Tree, options: ElasticityStr
     generateTypeScriptDockerfile(host, options);
 }
 
-function extractSloType(host: Tree, options: ElasticityStrategyControllerGeneratorNormalizedSchema): ObjectKind {
+function extractEStratType(host: Tree, options: ElasticityStrategyControllerGeneratorNormalizedSchema): ObjectKind {
     const tempDir = getTempDir(options.name, 'gen-elasticity-stratetgy-controller');
     generateAndWriteScripts(host, options.eStratTypePkg, options.eStratType, tempDir);
 
