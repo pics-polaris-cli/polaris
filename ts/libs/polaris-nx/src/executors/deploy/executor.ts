@@ -1,11 +1,11 @@
 import { Executor, ExecutorContext } from '@nrwl/devkit';
 import { loadAll, dump } from 'js-yaml';
+import { isMatch } from 'lodash';
 
 import { PolarisCliError } from '../../util';
 import { DeployExecutorSchema } from './schema';
 import { readFile } from 'fs/promises';
 import { apply, createKubeConfig, getClusterRoleBindingFromManifest, getClusterRoleFromManifest, getDeployedClusterRole, getDeployedClusterRoleBinding } from '../../util/kubernetes';
-import { isValueEqual } from '@polaris-sloc/core';
 
 /**
  * Deploys a Polaris project or an SLO Mapping to an orchestrator.
@@ -36,9 +36,9 @@ const executeDeploy: Executor<DeployExecutorSchema> = async (options: DeployExec
 
     if (deployedClusterRole && deployedClusterRoleBinding) {
         // Check if the ClusterRole and ClusterRoleBinding in the manifest are equal to the ones deployed in the cluster.
-        if (!isValueEqual(clusterRole, deployedClusterRole)) {
+        if (!isMatch(deployedClusterRole, clusterRole)) {
             throw new PolarisCliError('The ClusterRole object found in the manifest does not match the one deployed in the cluster.');
-        } else if (!isValueEqual(clusterRoleBinding, deployedClusterRoleBinding)) {
+        } else if (!isMatch(deployedClusterRoleBinding, clusterRoleBinding)) {
             throw new PolarisCliError('The ClusterRoleBinding object found in the manifest does not match the one deployed in the cluster.');
         }
 
