@@ -275,7 +275,7 @@ type KubernetesObjectHeader<T extends KubernetesObject | KubernetesObject> = Pic
 export async function apply(kubeConfig: KubeConfig, specString: string): Promise<KubernetesObject[]> {
     const client = KubernetesObjectApi.makeApiClient(kubeConfig);
 
-    const specs: KubernetesObject[] = loadAll(specString);
+    const specs: KubernetesObject[] = loadAll(specString).flat();
     const validSpecs = specs.filter((s): s is KubernetesObjectHeader<KubernetesObject> => s && !!s.kind && !!s.metadata);
     const created: KubernetesObject[] = [];
     for (const spec of validSpecs) {
