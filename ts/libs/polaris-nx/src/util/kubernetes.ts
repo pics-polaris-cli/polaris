@@ -306,12 +306,26 @@ export function getClusterRoleBindingFromManifest(manifest: unknown[]): V1Cluste
 
 export async function getDeployedClusterRole(name: string, kubeConfig: KubeConfig): Promise<V1ClusterRole> {
     const rbacAuthorizationApi = kubeConfig.makeApiClient(RbacAuthorizationV1Api);
-    const response = await rbacAuthorizationApi.readClusterRole(name);
-    return response.body;
+    try {
+        const response = await rbacAuthorizationApi.readClusterRole(name);
+        return response.body;
+    } catch (error) {
+        if (error.statusCode === 404) {
+            return undefined;
+        }
+        throw error;
+    }
 }
 
 export async function getDeployedClusterRoleBinding(name: string, kubeConfig: KubeConfig): Promise<V1ClusterRoleBinding> {
     const rbacAuthorizationApi = kubeConfig.makeApiClient(RbacAuthorizationV1Api);
-    const response = await rbacAuthorizationApi.readClusterRoleBinding(name);
-    return response.body;
+    try {
+        const response = await rbacAuthorizationApi.readClusterRoleBinding(name);
+        return response.body;
+    } catch (error) {
+        if (error.statusCode === 404) {
+            return undefined;
+        }
+        throw error;
+    }
 }
