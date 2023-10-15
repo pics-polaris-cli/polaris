@@ -37,9 +37,9 @@ const executeDeploy: Executor<DeployExecutorSchema> = async (options: DeployExec
     if (deployedClusterRole && deployedClusterRoleBinding) {
         // Check if the ClusterRole and ClusterRoleBinding in the manifest are equal to the ones deployed in the cluster.
         if (!isValueEqual(clusterRole, deployedClusterRole)) {
-            throw new PolarisCliError('The ClusterRole object found in the manifest matches the one deployed in the cluster.');
+            throw new PolarisCliError('The ClusterRole object found in the manifest does not match the one deployed in the cluster.');
         } else if (!isValueEqual(clusterRoleBinding, deployedClusterRoleBinding)) {
-            throw new PolarisCliError('The ClusterRoleBinding object found in the manifest matches the one deployed in the cluster.');
+            throw new PolarisCliError('The ClusterRoleBinding object found in the manifest does not match the one deployed in the cluster.');
         }
 
         // Remove the ClusterRole and ClusterRoleBinding from the manifest, so that they are not deployed again.
