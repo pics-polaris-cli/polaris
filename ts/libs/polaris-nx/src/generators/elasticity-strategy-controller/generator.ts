@@ -11,6 +11,7 @@ import {
     updateProjectConfiguration,
 } from '@nx/devkit';
 import { ObjectKind } from '@polaris-sloc/core';
+import { flushChanges } from 'nx/src/generators/tree';
 import {
     NPM_PACKAGES,
     POLARIS_INIT_LIB_FN_NAME,
@@ -126,4 +127,7 @@ function generateAndWriteScripts(host: Tree, eStratTypePkg: string, polarisType:
         tempDir,
         templateOptions,
     );
+
+    const changes = host.listChanges();
+    flushChanges(tempDir, changes);
 }

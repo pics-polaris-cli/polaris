@@ -116,4 +116,7 @@ function generateAndWriteScripts(host: Tree, sloMappingTypePkg: string, polarisT
         tempDir,
         templateOptions,
     );
+
+    const changes = host.listChanges();
+    flushChanges(tempDir, changes);
 }

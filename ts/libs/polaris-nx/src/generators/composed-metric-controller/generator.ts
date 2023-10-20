@@ -2,6 +2,7 @@ import * as child_process from 'child_process';
 import * as path from 'path';
 import { Generator, Tree, formatFiles, generateFiles, joinPathFragments, offsetFromRoot, readProjectConfiguration, updateProjectConfiguration } from '@nx/devkit';
 import { ObjectKind } from '@polaris-sloc/core';
+import { flushChanges } from 'nx/src/generators/tree';
 import {
     NPM_PACKAGES,
     POLARIS_INIT_LIB_FN_NAME,
@@ -118,4 +119,7 @@ function generateAndWriteScripts(host: Tree, compMetricTypePkg: string, polarisT
         tempDir,
         templateOptions,
     );
+
+    const changes = host.listChanges();
+    flushChanges(tempDir, changes);
 }
