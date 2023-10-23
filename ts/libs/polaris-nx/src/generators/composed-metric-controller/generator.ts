@@ -68,7 +68,7 @@ export default generateComposedMetricController;
 
 function addComposedMetricControllerFiles(host: Tree, options: ComposedMetricControllerGeneratorNormalizedSchema): void {
     const compMetricNames = getComposedMetricTypeNames(options.compMetricType);
-    const { group, kind } = extractCompMetricType(host, options)
+    const { group, kind } = extractCompMetricType(host, options, compMetricNames.compMetricType)
 
     const templateOptions = {
         ...compMetricNames,
@@ -85,9 +85,9 @@ function addComposedMetricControllerFiles(host: Tree, options: ComposedMetricCon
     generateTypeScriptDockerfile(host, options);
 }
 
-function extractCompMetricType(host: Tree, options: ComposedMetricControllerGeneratorNormalizedSchema): ObjectKind {
+function extractCompMetricType(host: Tree, options: ComposedMetricControllerGeneratorNormalizedSchema, compMetricType: string): ObjectKind {
     const tempDir = getTempDir(options.name, 'gen-composed-metric-controller');
-    generateAndWriteScripts(host, options.compMetricTypePkg, options.compMetricType, tempDir);
+    generateAndWriteScripts(host, options.compMetricTypePkg, compMetricType, tempDir);
 
     // Run the gen-crds script.
     const scriptTsConfig = joinPathFragments(tempDir, 'tsconfig.json');
