@@ -128,6 +128,6 @@ function generateAndWriteScripts(host: Tree, eStratTypePkg: string, polarisType:
         templateOptions,
     );
 
-    const changes = host.listChanges();
-    flushChanges(tempDir, changes);
+    const changes = host.listChanges().filter((change) => change.path.startsWith(tempDir));
+    flushChanges(host.root, changes);
 }

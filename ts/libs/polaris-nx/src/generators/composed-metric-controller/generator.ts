@@ -120,6 +120,6 @@ function generateAndWriteScripts(host: Tree, compMetricTypePkg: string, polarisT
         templateOptions,
     );
 
-    const changes = host.listChanges();
-    flushChanges(tempDir, changes);
+    const changes = host.listChanges().filter((change) => change.path.startsWith(tempDir));
+    flushChanges(host.root, changes);
 }
